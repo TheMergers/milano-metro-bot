@@ -5,7 +5,7 @@ from wand.image import Image
 import requests
 import logging
 from pyrogram import Client
-from get_config import get_config_file
+from get_config import get_config_file, get_chat, get_text_message
 
 config = get_config_file("config.json")
 api_id = config["api_id"]
@@ -68,8 +68,8 @@ def downloadPdf(file_url):
 
 @app.on_message()
 def echo(client, message):
-	chat_id = message["chat"]["id"]
-	messaggio = message["text"]
+	chat_id = get_chat(message)
+	messaggio = get_text_message(message)
 	if check_flood(chat_id):
 		return
 		
