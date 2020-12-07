@@ -1,0 +1,17 @@
+#ignora compilati e cache di python
+__pycache__/
+*.py[cod]
+*$py.class
+
+#ignora il file di configurazione
+config.json
+
+#ignora file pdf,jpg,png
+*.pdf
+*.jpeg
+*.jpg
+*.png
+
+#Ignora le sessioni
+*.session
+*.session-journal
