@@ -5,7 +5,7 @@ from wand.image import Image
 import requests
 import logging
 from pyrogram import Client
-from get_config import get_config_file, get_chat, get_text_message
+from utils.get_config import get_config_file, get_chat, get_text_message
 
 config = get_config_file("config.json")
 api_id = config["api_id"]
