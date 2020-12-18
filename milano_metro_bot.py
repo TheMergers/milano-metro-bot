@@ -6,6 +6,7 @@ import requests
 import logging
 from pyrogram import Client
 from utils.get_config import get_config_file, get_chat, get_text_message
+from utils.atm_api_functions import *
 
 config = get_config_file("config.json")
 api_id = config["api_id"]
@@ -109,16 +110,20 @@ def echo(client, message):
 	if isStop == 0:
 		app.send_message(chat_id,'<i>Nessuna fermata trovata, prova a scrivere parte del nome</i>', parse_mode='html')
 		return
-	
 	if isStop > 1:
 		testo = ''
 		for n in found:
-			testo+='\n<code>'+n+'</code>'
+		        testo+='\n<code>'+n+'</code>'
 		app.send_message(chat_id,'<i>Ho trovato diverse fermate:</i>'+testo+'\n<i>Specificane una scrivendo il suo nome</i>', parse_mode='html')
 		return
-	
-	app.send_message(chat_id,'<i>Sto scaricando gli orari per la fermata:</i>\n<b>'+nome+'</b>', parse_mode='html')
-	
+	if "M1" in nome:
+                linea = get_line(-1)
+                nome = nome.replace("M1","")
+                path = get_stop(linea,nome.upper())
+                url = get_time_table(path)
+                app.send_message(chat_id,url + "\n" + "eccolo qua " + nome,disable_web_page_preview=True)
+                return
+                app.send_message(chat_id,'<i>Sto scaricando gli orari per la fermata:</i>\n **'+nome+'**')
 	pages = downloadPdf(url)
 	
 	for page in range(pages):
